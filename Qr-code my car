@@ -1,0 +1,19 @@
+from zipfile import ZipFile
+from pathlib import Path
+import shutil
+
+base=Path('/mnt/data/qr_landing')
+base.mkdir(exist_ok=True)
+img_src=Path('/mnt/data/BC4928C2-8CF3-4344-B45C-AC2E75F8C9F3.jpeg')
+shutil.copy(img_src, base/'car.jpg')
+
+html='''<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Welcome</title><link rel="stylesheet" href="style.css"></head><body><div class="card"><img src="car.jpg"><h1>Thanks for scanning!</h1><p>Follow me:</p><a class="btn" href="https://t.me/zxcqwer017">Telegram @zxcqwer017</a><a class="btn ig" href="https://instagram.com/sayfullayeeev">Instagram @sayfullayeeev</a></div></body></html>'''
+css='''body{margin:0;background:#111;color:#fff;font-family:Arial;display:flex;justify-content:center;align-items:center;min-height:100vh}.card{background:#222;padding:20px;border-radius:20px;max-width:420px;text-align:center;box-shadow:0 0 30px #444}img{width:100%;border-radius:16px}.btn{display:block;margin:12px;padding:14px;background:#229ED9;color:#fff;text-decoration:none;border-radius:12px}.ig{background:#C13584}'''
+(base/'index.html').write_text(html,encoding='utf-8')
+(base/'style.css').write_text(css,encoding='utf-8')
+(base/'script.js').write_text("// reserved",encoding='utf-8')
+zip_path='/mnt/data/QR_Landing_Page.zip'
+with ZipFile(zip_path,'w') as z:
+    for f in base.iterdir():
+        z.write(f,f.name)
+print(zip_path)
